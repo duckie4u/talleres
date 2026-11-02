@@ -33,6 +33,24 @@ public class ProductoAjustado implements Producto
         eliminados = new ArrayList<Ingrediente>( );
     }
 
+    /**
+     * Agrega un ingrediente adicional al producto. El mismo ingrediente puede agregarse varias veces.
+     * @param ingrediente El ingrediente que el cliente quiere agregar
+     */
+    public void agregarIngrediente( Ingrediente ingrediente )
+    {
+        agregados.add( ingrediente );
+    }
+
+    /**
+     * Elimina un ingrediente del producto. Quitar ingredientes no reduce el precio.
+     * @param ingrediente El ingrediente que el cliente quiere quitar
+     */
+    public void eliminarIngrediente( Ingrediente ingrediente )
+    {
+        eliminados.add( ingrediente );
+    }
+
     @Override
     public String getNombre( )
     {
@@ -45,7 +63,12 @@ public class ProductoAjustado implements Producto
     @Override
     public int getPrecio( )
     {
-        return productoBase.getPrecio();
+        int precio = productoBase.getPrecio( );
+        for( Ingrediente ing : agregados )
+        {
+            precio += ing.getCostoAdicional( );
+        }
+        return precio;
     }
 
     /**
